@@ -1,7 +1,8 @@
-FROM --platform=linux/arm64 r-base:4.3.2
+FROM r-base:4.3.2
 
 # Install system dependencies and TeX Live
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     wget \
     libcurl4-openssl-dev \
     libssl-dev \
@@ -20,13 +21,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install Quarto
 ENV QUARTO_VERSION="1.5.54"
-RUN wget "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-arm64.deb" && \
-    dpkg -i quarto-${QUARTO_VERSION}-linux-arm64.deb && \
+RUN wget "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb" && \
+    dpkg -i quarto-${QUARTO_VERSION}-linux-amd64.deb && \
     apt-get update && apt-get install -f -y && \
-    rm quarto-${QUARTO_VERSION}-linux-arm64.deb
-
-# Debug: List installed fonts
-RUN fc-list
+    rm quarto-${QUARTO_VERSION}-linux-amd64.deb
 
 # Set working directory
 WORKDIR /app
